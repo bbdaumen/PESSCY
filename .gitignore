@@ -1,0 +1,17 @@
+*.vscode
+*__pycache__
+*.pyc
+*.aux
+*.bbl
+*.blg
+*.fls
+*.out
+*.nav
+*.toc
+*.snm
+*.fdb_latexmk
+*.synctex.gz
+PESSCY.egg-info/*
+results/*
+doc_perso/*
+build/*
