@@ -1,0 +1,19 @@
+{
+  "thread_number" [int]: the number of core of the processor to use for multithreading,
+  "start_nb_thread" [int]: the first core number to use,
+
+  "timeout_system_generation" [float]: the timeout for the generation of the system of equations,
+  "timeout_full_computation" [float]: the timeout for the computation of the lexicographic basis,
+
+  "monomial_orders" [list]: the list of monomial orders,
+  "field_chars" [list]: the list of field characteristics,
+
+  "branches": dictionary of the number of branches (keys) and list of sparsity of the constants vector (items),
+  "cicos": dictionnary of the cico number (key) and list of number of rounds (items),
+  
+  "algos_gb" : list of algorithms to compute the first Gröbner basis,
+  "options": {"singular:groebner": [{"prot": false}]} dictionary,
+  "algos_order_change": list of algorithms to change the term order of the Gröbner basis,
+
+  "number_test": number of times we do the same experiment
+}

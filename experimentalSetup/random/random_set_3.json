@@ -1,0 +1,13 @@
+{
+  "thread_number": 1,
+  "start_nb_thread": 0,
+
+  "timeout_system_generation": 10,
+  "timeout_full_computation": 100,
+
+  "permutation": "zerolith",
+  "permutation_conf_number": 0,
+  "permutation_set_number": 0,
+
+  "number_test": 1
+}

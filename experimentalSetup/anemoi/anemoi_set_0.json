@@ -1,0 +1,19 @@
+{
+  "thread_number": 1,
+  "start_nb_thread": 0,
+
+  "timeout_system_generation": 10,
+  "timeout_full_computation": 100,
+
+  "monomial_orders": ["degrevlex"],
+  "field_chars": [65543],
+
+  "branches": {"2" : [0]},
+  "cicos": {"1": [2]},
+  
+  "algos_gb": ["singular:groebner"],
+  "options": {"singular:groebner": [{"prot": false}]},
+  "algos_order_change": ["gwalk", "fglm"],
+
+  "number_test": 1
+}

@@ -1,0 +1,20 @@
+{
+  "thread_number": 200,
+  "start_nb_thread": 0,
+
+  "timeout_system_generation": 100,
+  "timeout_full_computation": 20000,
+
+  "monomial_orders": ["degrevlex", "lex"],
+  "field_chars": [268440577],
+
+  "branches": {"3" : [3], "4" : [4], "5" : [5]},
+  "cicos": {"1": [1,2,3,4]},
+  
+  "algos_gb": ["giac:gbasis", "eliminate:giac:1", "singular:groebner", "singular:std", "singular:slimgb", "singular:stdhilb", "msolve", "magma:GroebnerBasis"],
+  "options": {"singular:groebner": [{"prot": "sage"}], "singular:std": [{"prot": "sage"}], "singular:slimgb": [{"prot": false}], "singular:stdhilb": [{"prot": "sage"}], "giac:gbasis": [{"prot": true}], "magma:GroebnerBasis": [{"prot": "sage"}]},
+
+  "algos_order_change": ["gwalk"],
+
+  "number_test": 6
+}

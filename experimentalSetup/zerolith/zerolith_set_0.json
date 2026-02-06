@@ -1,0 +1,19 @@
+{
+  "thread_number": 1,
+  "start_nb_thread": 0,
+
+  "timeout_system_generation": 10,
+  "timeout_full_computation": 50,
+
+  "monomial_orders": ["degrevlex"],
+  "field_chars": [2147483647],
+
+  "branches": {"4" : [2]},
+  "cicos": {"2": [3]},
+  
+  "algos_gb": ["singular:slimgb"],
+  "options": {"singular:slimgb": [{"prot": false}]},
+  "algos_order_change": ["fglm", "gwalk"],
+
+  "number_test": 1
+}

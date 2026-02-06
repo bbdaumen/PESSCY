@@ -1,0 +1,20 @@
+{
+  "thread_number": 200,
+  "start_nb_thread": 0,
+
+  "timeout_system_generation": 100,
+  "timeout_full_computation": 20000,
+
+  "monomial_orders": ["invlex"],
+  "field_chars": [268440577],
+
+  "branches": {"3" : [3], "4" : [4], "5" : [5], "6" : [6]},
+  "cicos": {"1": [1,2,3,4,5,6,7]},
+  
+  "algos_gb": ["giac:gbasis"],
+  "options": {"giac:gbasis": [{"prot": true}]},
+
+  "algos_order_change": ["gwalk"],
+
+  "number_test": 6
+}

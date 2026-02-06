@@ -1,0 +1,17 @@
+[build-system]
+requires = [ "setuptools" ]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "PESSCY"
+version = "1.0"
+description = "TODO"
+authors = [{name = "Baptiste Daumen"}]
+dependencies = ["argcomplete"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["benchmark*", "utils*", "generate*", "permutations*", "solve*", "scripts*", "experimentalSetup*", "analysis*", "comparisons_random*"]
+
+[project.scripts]
+pesscy = "scripts.cli:main"

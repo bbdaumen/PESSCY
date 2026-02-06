@@ -1,0 +1,13 @@
+{
+  "thread_number" [int]: the number of core of the processor to use for multithreading,
+  "start_nb_thread" [int]: the first core number to use,
+
+  "timeout_system_generation" [float]: the timeout for the generation of the system of equations,
+  "timeout_full_computation" [float]: the timeout for the computation of the lexicographic basis,
+
+  "permutation": permutation to compare,
+  "permutation_conf_number": configuration ID to compare,
+  "permutation_set_number": set ID to compare,
+
+  "number_test": number of times we do the same experiment
+}
