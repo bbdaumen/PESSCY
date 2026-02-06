@@ -155,7 +155,7 @@ pesscy analysis_random -h
 
 ## Algorithms for Gröbner basis
 
-All libraries and algorithms supported by SageMath to compute Gröbner basis are described in the [documentation](https://example.com).
+All libraries and algorithms supported by SageMath to compute Gröbner basis are described in the [documentation](https://doc.sagemath.org/html/en/reference/polynomial_rings/sage/rings/polynomial/multi_polynomial_ideal.html#sage.rings.polynomial.multi_polynomial_ideal.MPolynomialIdeal.groebner_basis).
 
 There are all supported with their options (if the library is installed) except 'ginv'.
 
