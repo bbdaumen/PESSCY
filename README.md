@@ -201,7 +201,7 @@ If the dimension of the ideal is already known, it is advised to change it direc
 
 ## Documentation of the functions
 
-The full documentation of the tool is available at `https://bbdaumen.github.io/PESSCY/`.
+Access to the full [documentation](https://bbdaumen.github.io/PESSCY/) of the tool.
 
 ## Contact
 
