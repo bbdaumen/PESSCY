@@ -23,7 +23,6 @@ jobs:
 
       - name: Build documentation
         run: |
-          cd doc
           make html
 
       - name: Deploy to GitHub Pages
