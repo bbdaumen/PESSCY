@@ -1,32 +1,27 @@
 name: Build Sphinx documentation
 
-on:
-  push:
-    branches: [ main ]
+on: [push, pull_request, workflow_dispatch]
+
+permissions:
+  contents: write
 
 jobs:
   docs:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
+      - uses: actions/setup-python@v5
       - name: Install dependencies
         run: |
-          pip install sphinx
-          pip install -r doc/requirements.txt || true
-
-      - name: Build documentation
+          pip install sphinx sphinx_rtd_theme
+      - name: Sphinx build
         run: |
           make html
-
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         with:
+          publish_branch: gh-pages
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: doc/_build/html
+          force_orphan: true
