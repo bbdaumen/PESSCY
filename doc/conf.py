@@ -24,7 +24,8 @@ extensions = ['sphinx.ext.autodoc']
 autodoc_mock_imports = [
     "psutil",
     "sage",
-    "matplotlib"
+    "matplotlib",
+    "numpy"
     ]
 
 
