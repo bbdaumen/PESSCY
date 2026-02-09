@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
 from matplotlib.widgets import Button
 import numpy as np
-import sys
 from utils.analysis import read_pickle_parameters, dict_keys_equal_except_keys_specified, read_pickle_experiment, to_list_info, all_inf_lowerbound, all_none, statistics_analysis, statistics_analysis_no_log, first_monomial_order_plus_transformation_statistics_analysis, ALGOS_COLOR, ALGOS_MARKER, NAMES_NICE_PRINTING
 STOP_REQUESTED = False
 LOWERBOUND = -2

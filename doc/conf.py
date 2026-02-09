@@ -22,6 +22,7 @@ release = '1.0'
 extensions = ['sphinx.ext.autodoc']
 
 autodoc_mock_imports = [
+    "psutil",
     "sage",
     "sage.all",
     "sage.matrix",
