@@ -24,10 +24,8 @@ extensions = ['sphinx.ext.autodoc']
 autodoc_mock_imports = [
     "psutil",
     "sage",
-    "sage.all",
-    "sage.matrix",
-    "sage.rings",
-]
+    "matplotlib"
+    ]
 
 
 templates_path = ['_templates']
