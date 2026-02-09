@@ -21,6 +21,14 @@ release = '1.0'
 
 extensions = ['sphinx.ext.autodoc']
 
+autodoc_mock_imports = [
+    "sage",
+    "sage.all",
+    "sage.matrix",
+    "sage.rings",
+]
+
+
 templates_path = ['_templates']
 exclude_patterns = []
 
