@@ -20,6 +20,8 @@ Some tests are provided in the `tests` folder. If you want to try your installat
 bash tests/test.sh
 ```
 
+You may need to make installation: `apt install jq`.
+
 ## Modes of the tool
 
 This tool may be used in different modes:
