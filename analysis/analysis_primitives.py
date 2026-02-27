@@ -33,8 +33,13 @@ def compare_solving_methods(folder_results_primitive:str, variable_parameter:str
 
     parameters_treated = []
 
-    keys_to_ignore=["id", variable_parameter, "seed"]  ## Keys we ignore as we don"t compare them (they may be different)
+    keys_to_ignore=["id", variable_parameter, "seed", "monomial_order"]  ## Keys we ignore as we don"t compare them (they may be different)
     keys_to_ignore_elimination=["id", variable_parameter, "seed", "algo_order_change", "monomial_order"]
+
+
+    if variable_parameter == "branch":
+        keys_to_ignore.append("constant_sparsity")
+        keys_to_ignore_elimination.append("constant_sparsity")
 
     for parameter in parameters:
 
@@ -95,41 +100,43 @@ def compare_solving_methods(folder_results_primitive:str, variable_parameter:str
 
                 data_primitive = read_pickle_experiment(folder_results_primitive, parameter_used["id"]) ### Liste de données
 
+                print(data_primitive)
+
                 monomial_order = parameter_used["monomial_order"]
 
-
                 if monomial_order == "degrevlex" or monomial_order == "deglex":
-
-                    x.append(parameter_used[variable_parameter])
 
                     """
                         First deal with the result of the primitive
                     """
 
                     if data_primitive is None:
-                        first_monomial_order_primitive.append(None)
-                        first_monomial_order_primitive_info.append("none"[0])
-                        first_monomial_order_plus_transformation_primitive.append(None)
-                        transformation_primitive_info.append("none"[0])
-                        transformation_primitive.append(None)
-                        ideal_degree_list_primitive.append(None)
-                        ideal_degree_theory.append(None)
-                        solving_degree_list_primitive.append(None)
-                        solving_degree_theory.append(None)
+                        first_monomial_order_primitive_info.append('n')
+                        transformation_primitive_info.append('n')
 
                     else:
+
+                        x.append(parameter_used[variable_parameter])
 
                         system_of_equation_shape = data_primitive[0]["system_of_equation_shape"]
                         mean_time_gb_primitive, ecart_type_time_gb_primitive = statistics_analysis(data_primitive, "groebner_time")
                         mean_time_tf_primitive, ecart_type_time_tf_primitive = statistics_analysis(data_primitive, "transformation_basis_time")
                         mean_ideal_degree_primitive, ecart_type_ideal_degree_primitive = statistics_analysis_no_log(data_primitive, "ideal_degree")
                         mean_solving_degree_primitive, ecart_type_solving_degree_primitive = statistics_analysis_no_log(data_primitive, "solving_degree")
+
+                        if mean_ideal_degree_primitive is not np.nan:
+                            mean_ideal_degree_primitive = int(mean_ideal_degree_primitive)
                         
                         product_input_degree = 1
                         macaulay_bound = 1
+
+                        if system_of_equation_shape == "timeout_generation":
+                            x.pop()
+                            continue
+
                         for equation_shape in system_of_equation_shape:
-                            product_input_degree *= equation_shape[2]
-                            macaulay_bound += equation_shape[2] - 1
+                            product_input_degree *= int(equation_shape[2])
+                            macaulay_bound += int(equation_shape[2]) - 1
 
                         if mean_time_gb_primitive is np.nan and mean_time_tf_primitive is np.nan:
 
@@ -186,18 +193,16 @@ def compare_solving_methods(folder_results_primitive:str, variable_parameter:str
 
                 elif monomial_order == "lex" or monomial_order == "invlex":
 
-                    x_elimination.append(parameter_used[variable_parameter])
-
                     """
                         First deal with the result of the primitive
                     """
 
                     if data_primitive is None:
-                        elimination_primitive.append(np.nan)
                         elimination_primitive_info.append('n')
-                        elimination_primitive_ecart_type.append(np.nan)
 
                     else:
+
+                        x_elimination.append(parameter_used[variable_parameter])
 
                         mean_time_gb_compared, ecart_type_time_gb_compared = statistics_analysis(data_primitive, "groebner_time")
 
@@ -207,9 +212,9 @@ def compare_solving_methods(folder_results_primitive:str, variable_parameter:str
                             elimination_primitive_info.append('n')
 
                         else:
-                            elimination_primitive_info.append("w")
                             elimination_primitive.append(mean_time_gb_compared)
                             elimination_primitive_ecart_type.append(ecart_type_time_gb_compared)
+                            elimination_primitive_info.append('w')
 
             if all_none(elimination_primitive) and all_none(first_monomial_order_primitive) and all_none(first_monomial_order_plus_transformation_primitive):
                 continue
@@ -227,11 +232,13 @@ def compare_solving_methods(folder_results_primitive:str, variable_parameter:str
                 first_monomial_order_primitive_plot = axes[0].errorbar(x, first_monomial_order_primitive, yerr=first_monomial_order_primitive_ecart_type, marker='o', color="#1f77b4")
                 handles_0.append(first_monomial_order_primitive_plot)
                 labels_0.append('First monomial order ' + str(to_list_info(first_monomial_order_primitive_info)))
+                # labels_0.append('First monomial order')
 
             if transformation_primitive != []:
                 transformation_primitive_plot = axes[0].errorbar(x, transformation_primitive, yerr=transformation_primitive_ecart_type, marker='s', color="#2ca02c")
                 handles_0.append(transformation_primitive_plot)
                 labels_0.append('Transformation ' + str(to_list_info(transformation_primitive_info)))
+                # labels_0.append('Transformation')
 
             if first_monomial_order_plus_transformation_primitive != []:
                 first_monomial_order_plus_transformation_primitive_plot = axes[0].errorbar(x, first_monomial_order_plus_transformation_primitive, yerr=first_monomial_order_plus_transformation_primitive_ecart_type, marker='*', label = "First monomial order + Transformation", color="#ff7f0e")
@@ -242,6 +249,7 @@ def compare_solving_methods(folder_results_primitive:str, variable_parameter:str
                 elimination_primitive_plot = axes[0].errorbar(x_elimination, elimination_primitive, yerr=elimination_primitive_ecart_type, marker='v', color="#d62728")
                 handles_0.append(elimination_primitive_plot)
                 labels_0.append('Elimination order ' + str(to_list_info(elimination_primitive_info)))
+                # labels_0.append('Elimination order')
 
             handles_1 = []
             labels_1 = []
@@ -249,7 +257,7 @@ def compare_solving_methods(folder_results_primitive:str, variable_parameter:str
             if solving_degree_list_primitive != []:
                 solving_degree_list_primitive_plot = axes[1].errorbar(x, solving_degree_list_primitive, yerr=solving_degree_list_primitive_ecart_type, color="#2ca02c")
                 handles_1.append(solving_degree_list_primitive_plot)
-                labels_1.append("Regularity degree " + str(to_list_info(solving_degree_list_primitive)))
+                labels_1.append("Solving degree " + str(to_list_info(solving_degree_list_primitive)))
 
             if solving_degree_theory != []:
                 solving_degree_theory_plot, = axes[1].plot(x, solving_degree_theory, color="#ff7f0e")
@@ -268,10 +276,10 @@ def compare_solving_methods(folder_results_primitive:str, variable_parameter:str
             if ideal_degree_theory != []:
                 ideal_degree_theory_plot, = axes[2].plot(x, ideal_degree_theory, color="#ff7f0e")
                 handles_2.append(ideal_degree_theory_plot)
-                labels_2.append("Ideal degree theory " + str(to_list_info(ideal_degree_theory)))
+                labels_2.append("Ideal degree bound " + str(to_list_info(ideal_degree_theory)))
 
-            exclude = ["id", variable_parameter, "monomials_degree_variables_vector", "seed", "version", "options", "monomial_order", "number_test"]    
-            title = ", ".join(k + ": " + str(v) for k, v in parameter.items() if k not in exclude)
+            exclude = ["id", variable_parameter, "seed", "version", "options", "monomial_order"]    
+            title = ", ".join(NAMES_NICE_PRINTING[k] + ": " + str(v) for k, v in parameter.items() if k not in exclude)
             fig.suptitle(title)
 
             axes[0].xaxis.set_major_locator(MaxNLocator(integer=True))
@@ -332,6 +340,9 @@ def algorithms_comparison(folder_results_primitive:str, variable_parameter:str, 
         keys_to_ignore=["id", variable_parameter, key, "seed", "options"]  ## Keys we ignore as we don"t compare them (they may be different)
         keys_to_ignore_elimination=[]
 
+    if variable_parameter == "branch":
+        keys_to_ignore.append("constant_sparsity")
+
 
     for parameter in parameters_primitive:
 
@@ -372,6 +383,8 @@ def algorithms_comparison(folder_results_primitive:str, variable_parameter:str, 
 
             for evolution_algo in evolution_by_algos:
 
+                print(evolution_algo, "\n")
+
                 if STOP_REQUESTED:
                     exit(0)
 
@@ -394,6 +407,7 @@ def algorithms_comparison(folder_results_primitive:str, variable_parameter:str, 
                         timings_log_primitive_ecart_type.append(np.nan)
                         timings_info_primitive.append('n')
                     else:
+                        print(data_primitive)
                         mean_time_primitve, ecart_type_time_primitive = statistics_analysis(data_primitive, timing_analysed)
                         if mean_time_primitve is np.nan:
                             timings_log_primitive.append(np.nan)
@@ -422,11 +436,12 @@ def algorithms_comparison(folder_results_primitive:str, variable_parameter:str, 
 
                     timings_log_primitive_plot = plt.errorbar(x_axis, timings_log_primitive, yerr=timings_log_primitive_ecart_type, marker=ALGOS_MARKER[algo_marker], color=ALGOS_COLOR[algo_marker])
                     handles_list.append(timings_log_primitive_plot)
-                    labels_list.append(algo + " Primitive " + str(to_list_info(timings_info_primitive)))
+                    labels_list.append(algo + " " + str(to_list_info(timings_info_primitive)))
+                    # labels_list.append(algo)
 
             if not all_none_plot:
 
-                exclude = ["id", key, variable_parameter, "monomials_degree_variables_vector", "seed", "version", "options"]   
+                exclude = ["id", key, variable_parameter, "seed", "version", "options"]   
 
                 title = ", ".join(NAMES_NICE_PRINTING[k] + ": " + str(v) for k, v in parameter.items() if k not in exclude)
                 plt.title(title)
